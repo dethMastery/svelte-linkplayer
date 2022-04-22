@@ -1,6 +1,5 @@
 {
   "name": "linkplayer",
-  "version": "0.0.1",
   "scripts": {
     "dev": "svelte-kit dev --port 1980",
     "build": "svelte-kit build",
