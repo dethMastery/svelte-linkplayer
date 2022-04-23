@@ -9,15 +9,11 @@
 <section>
 	<div class="form">
 		<h1>Just Entering Your Link:</h1>
-		<form action="/link/" class="linkForm">
+		<form action="/link" method="get" class="linkForm">
 			<input type="text" placeholder="ur link" name="link">
 			<br>
 			<button type="submit">GoGo~</button>
 		</form>
-
-		<div class="subtext">
-			
-		</div>
 	</div>
 </section>
 
