@@ -137,7 +137,69 @@
 		</div>
 	{:else if fType === 'video'}
 		<div class="video">
-			video
+			<div class="control">
+				<video 
+					src={link} 
+					bind:duration={duration}		 
+					bind:currentTime={currentTime}
+					bind:muted={muted}
+					bind:paused={paused}
+					bind:volume={volume}
+
+					autoplay
+				></video>
+				<div class="info">
+					<h4>
+						Link : {link}
+					</h4>
+					<span class="subtext">
+						Type : {type}
+					</span>
+					<progress
+						value={currentTime}
+						max={duration}
+					/>
+					<br>
+					<span style="padding-bottom: 1rem;">
+						{format(currentTime)} / {format(duration)}
+					</span>
+				</div>
+				<div class="control-holder">
+					<button class="back" on:click={e => currentTime = currentTime - 5}>
+						-5
+					</button>
+					<button class="pp" on:click={e => paused = !paused}>
+						Pause / Play
+					</button>
+					<button class="skip" on:click={e=> currentTime = currentTime + 5}>
+						+5
+					</button>
+				</div>
+				<div class="vControl">
+					<span>volume</span>
+					<br>
+					<span>
+						<button class="vDown" on:click={e => volume = volume - 0.1}>
+							-
+						</button>
+						&nbsp;&nbsp;{Math.round(volume*100)}&nbsp;&nbsp;
+						<button class="vUp" on:click={e => volume = volume + 0.1}>
+							+
+						</button>
+					</span>
+				</div>
+			</div>
+			<br />
+			<div class="more" style="margin-bottom: 6rem;">
+				<span>More?</span>
+				<form action="/link" method="get" class="again">
+					<input type="text" placeholder="ur Link" name="link">
+					<br>
+					<button type="submit">
+						gogo~
+					</button>
+				</form>
+			</div>
 		</div>
 	{:else}
 		<div class="nothing">
@@ -171,14 +233,27 @@
 		color: whitesmoke;
 	}
 
+	.subtext {
+		color: grey;
+		font-size: 14px;
+	}
+
 	.audio, .video, .nothing {
-		/* width: 100%; */
 		height: auto;
 		text-align: center;
 	}
 
+	.video {
+		display: flex !important;
+		flex-direction: column;
+		justify-content: center;
+		align-content: center;
+		align-items: center;
+		text-align: center;
+	}
+
 	.control {
-		width: auto;
+		width: 18rem;
 
 		background-color: whitesmoke;
 		color: #2e2f2f;
@@ -187,8 +262,26 @@
 		padding: 1rem;
 	}
 
+	.video .control {
+		width: 70%;
+		min-width: 18rem;
+		padding: 0 !important;
+	}
+
+	.control video {
+		width: 100%;
+		border-top-left-radius: 10px;
+		border-top-right-radius: 10px;
+	}
+
 	.control .info {
+		/* padding-top: 1rem; */
 		margin-bottom: 1rem;
+	}
+
+	.audio .control .info {
+		width: auto;
+		/* padding-top: 1rem; */
 	}
 
 	.control progress {
@@ -216,6 +309,10 @@
 	.control .control-holder button:hover {
 		opacity: 0.8;
 		cursor: pointer;
+	}
+
+	.video .control .vControl {
+		padding-bottom: 1rem;
 	}
 
 	.control .vControl button {
@@ -261,7 +358,7 @@
 
 		font-size: 15px;
 		color: whitesmoke;
-		
+
 		background-color: coral;
 		padding: .35rem;
 		margin: 0;
@@ -292,6 +389,11 @@
 		background-color: coral;
 		color: whitesmoke;
 		font-size: 15px;
+	}
+
+	.nothing .back:hover {
+		opacity: 0.8;
+		cursor: pointer;
 	}
 
 	footer {
