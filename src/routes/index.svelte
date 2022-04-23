@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-	<title>Link Video/Audio Player</title>
+	<title>V/A Player</title>
 </svelte:head>
 
 <section>
