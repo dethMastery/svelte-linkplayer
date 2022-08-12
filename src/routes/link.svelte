@@ -1,6 +1,7 @@
 <script context="module" lang="ts">
 	export const prerender = true;
 	import { onMount } from 'svelte';
+	import isNode from 'detect-node';
 </script>
 
 <script lang='ts'>
@@ -62,6 +63,42 @@
 		volume = 1;
 	}
 
+	if(!isNode) {
+		let d = new URLSearchParams(document.location.search).get('link')
+		let cover = './cover/2.webp'
+
+		console.log(cover);
+
+		if ('mediaSession' in navigator) {
+			navigator.mediaSession.metadata = new MediaMetadata({
+				title: `${d}`,
+				artist: 'Suphakit dPlay',
+				album: 'Suphakit dPlay',
+				artwork: [
+					{ src: `${cover}`, sizes: '96x96', type: 'image/png' },
+					{ src: `${cover}`, sizes: '128x128', type: 'image/png' },
+					{ src: `${cover}`, sizes: '192x192', type: 'image/png' },
+					{ src: `${cover}`, sizes: '256x256', type: 'image/png' },
+					{ src: `${cover}`, sizes: '384x384', type: 'image/png' },
+					{ src: `${cover}`, sizes: '512x512', type: 'image/png' },
+				]
+			})
+		}
+
+		navigator.mediaSession.setActionHandler('play', function() {
+			paused = false
+		})
+		navigator.mediaSession.setActionHandler('pause', function() {
+			paused = true
+		})
+		navigator.mediaSession.setActionHandler('seekbackward', function() {
+			currentTime = currentTime - 5;
+		});
+		navigator.mediaSession.setActionHandler('seekforward', function() {
+			currentTime = currentTime + 5;
+		});
+	}
+
 </script>
 
 <svelte:head>
@@ -105,7 +142,11 @@
 						-5
 					</button>
 					<button class="pp" on:click={e => paused = !paused}>
-						Pause / Play
+						{#if paused == false}
+							Pause
+						{:else if paused == true}
+							Play
+						{/if}
 					</button>
 					<button class="skip" on:click={e=> currentTime = currentTime + 5}>
 						+5
