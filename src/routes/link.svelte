@@ -40,6 +40,7 @@
 
 	let duration:any;
 	let muted:any = false;
+	let loop:any = false;
 	let currentTime:any = 0;
 	let paused:any = false;
 	let volume:any = 0.5;
@@ -78,13 +79,14 @@
 				bind:paused={paused}
 				bind:volume={volume}
 
+				{loop}
 				autoplay
 			>
 			</audio>
 			<div class="control">
 				<div class="info">
 					<h3>
-						Link : {link}
+						Link : <a href={link} target="_blank">click</a>
 					</h3>
 					<h4>
 						Type : {type}
@@ -107,6 +109,17 @@
 					</button>
 					<button class="skip" on:click={e=> currentTime = currentTime + 5}>
 						+5
+					</button>
+										
+					<br />
+					<br />
+
+					<button class="loop" on:click={e=> loop = !loop}>
+						{#if loop == true}
+							Loop On
+						{:else if loop == false}
+							Loop Off
+						{/if}
 					</button>
 				</div>
 				<div class="vControl">
@@ -149,7 +162,7 @@
 					autoplay
 				></video>
 				<div class="info">
-					<h4>
+					<h4 style="width: 100%;">
 						Link : {link}
 					</h4>
 					<span class="subtext">
@@ -164,6 +177,7 @@
 						{format(currentTime)} / {format(duration)}
 					</span>
 				</div>
+				
 				<div class="control-holder">
 					<button class="back" on:click={e => currentTime = currentTime - 5}>
 						-5
@@ -175,6 +189,7 @@
 						+5
 					</button>
 				</div>
+
 				<div class="vControl">
 					<span>volume</span>
 					<br>
@@ -189,7 +204,9 @@
 					</span>
 				</div>
 			</div>
+
 			<br />
+
 			<div class="more" style="margin-bottom: 6rem;">
 				<span>More?</span>
 				<form action="/link" method="get" class="again">
@@ -201,7 +218,9 @@
 				</form>
 			</div>
 		</div>
+
 	{:else}
+	
 		<div class="nothing">
 			<h1>
 				nothing
@@ -277,6 +296,7 @@
 	.control .info {
 		/* padding-top: 1rem; */
 		margin-bottom: 1rem;
+		width: 100%;
 	}
 
 	.audio .control .info {
